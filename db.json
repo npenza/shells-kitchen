@@ -1,0 +1,24 @@
+{
+    "meals": [{
+            "id": 1,
+            "title": "Tacos",
+            "img": "https://houseofyumm.com/wp-content/uploads/2021/06/Taco-Meat-8-680x520.jpg",
+            "rating": "Medium",
+            "votes": 2
+        },
+        {
+            "id": 2,
+            "title": "Honey Mustard Chicken",
+            "img": "https://www.sixsistersstuff.com/wp-content/uploads/2012/09/Crunchy-Honey-Mustard-Chicken-finished-1-of-1.jpg",
+            "rating": "Medium",
+            "votes": 1
+        },
+        {
+            "id": 3,
+            "title": "Pizza",
+            "img": "https://www.arturospizza.com.au/img/special.jpg",
+            "rating": "Heavy",
+            "votes": 0
+        }
+    ]
+}

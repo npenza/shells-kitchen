@@ -5,8 +5,10 @@ import {db} from '../../firebase'
 export function useAllMeals() {
   const [meals, setMeals] = useState(null);
 
+  // use redux to include filters and search term
+
   useEffect(() => {
-    const q = query(collection(db, 'meals'))
+    const q = query(collection(db, 'meals') ,  orderBy("votes" , "desc"))
     onSnapshot(q, (querySnapshot) => {
       setMeals(querySnapshot.docs.map(doc => ({
         id: doc.id,
@@ -15,6 +17,7 @@ export function useAllMeals() {
     })
 
   } , []);
+  
+    return meals;
 
-  return meals;
 }

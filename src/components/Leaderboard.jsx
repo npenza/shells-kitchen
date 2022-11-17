@@ -9,7 +9,7 @@ export default function Leaderboard() {
     <div>
     <h2>Voting Leaderboard</h2>
       {votes && votes.map((meal) => (
-        <p>{meal.data.title} - {meal.data.votes}</p>
+        <p key={meal.id}>{meal.data.title} - {meal.data.votes}</p>
       ))}
     </div>
   )

@@ -1,5 +1,5 @@
 
-import { getAuth , createUserWithEmailAndPassword } from "firebase/auth";
+import { getAuth , createUserWithEmailAndPassword  , setPersistence, browserLocalPersistence} from "firebase/auth";
 
 export const handleSignUp = async (email , password , setUser) => {
    
@@ -12,10 +12,11 @@ createUserWithEmailAndPassword(auth, email, password)
   // Signed up & in 
   await setUser.setCurrentUsername(userCredential.user.email)
   await setUser.setEnteredEmail(userCredential.user.email)
-  await setUser.setAccessToken(userCredential.user.accessToken)
   await setUser.setUID(userCredential.user.uid)
   setUser.setErrorMessage("")
-//   await setPersistence(auth, browserSessionPersistence)
+  
+  // setPersistence
+  await setPersistence(auth, browserLocalPersistence)
 })
   .catch((error) => {
   console.log("err", error)

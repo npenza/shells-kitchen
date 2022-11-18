@@ -1,5 +1,5 @@
 
-import { getAuth , signInWithEmailAndPassword } from "firebase/auth";
+import { browserLocalPersistence, getAuth , setPersistence, signInWithEmailAndPassword } from "firebase/auth";
 
 export const handleSignIn = async (email , password , setUser) => {
    
@@ -12,10 +12,11 @@ signInWithEmailAndPassword(auth, email, password)
   // Signed in 
   await setUser.setCurrentUsername(userCredential.user.email)
   await setUser.setEnteredEmail(userCredential.user.email)
-  await setUser.setAccessToken(userCredential.user.accessToken)
   await setUser.setUID(userCredential.user.uid)
   setUser.setErrorMessage("")
-//   await setPersistence(auth, browserSessionPersistence)
+
+  // setPersistence
+  await setPersistence(auth, browserLocalPersistence)
 })
   .catch((error) => {
   console.log("err", error)

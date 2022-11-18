@@ -8,7 +8,7 @@ export function useAllMeals() {
   // use redux to include filters and search term
 
   useEffect(() => {
-    const q = query(collection(db, 'meals') ,  orderBy("votes" , "desc"))
+    const q = query(collection(db, 'meals') ,  orderBy("title" , "asc"))
     onSnapshot(q, (querySnapshot) => {
       setMeals(querySnapshot.docs.map(doc => ({
         id: doc.id,

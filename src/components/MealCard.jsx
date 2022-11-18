@@ -1,5 +1,5 @@
 import React from 'react'
-import { handleVote } from '../utils/HandleVote'
+import { handleVote } from '../utils/handleVote'
 
 
 export default function MealCard({meal , id}) {

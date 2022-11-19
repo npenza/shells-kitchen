@@ -1,13 +1,36 @@
 import {useState, useEffect} from 'react'
-import {collection, query, doc , orderBy, where, onSnapshot, updateDoc} from "firebase/firestore"
+import {collection, query, doc , getDoc , orderBy, where, onSnapshot, updateDoc , FieldValue} from "firebase/firestore"
 import {db} from '../../firebase'
 
-export const handleVote = async (meal , id) => {
+export const handleVote = async (meal , id , setVotes , uid) => {
+  // Get Refs
   const mealDocRef = doc(db, 'meals', id)
+  const userlDocRef = doc(db, 'users', uid)
   try{
-    await updateDoc(mealDocRef, {
-      votes : meal.votes + 1
-    })
+
+    // Find user data
+    const docRef = doc(db, "users", uid)
+    const docSnap = await getDoc(docRef);
+    const userData = docSnap.data()
+
+    //Can the user vote?
+    if (userData.votes == 0){
+      alert("You have ran out of votes haha")
+    } else {
+      // Update meal votes
+      await updateDoc(mealDocRef, {
+        votes : meal.votes + 1
+      })
+
+      // Update user votes
+      await updateDoc(userlDocRef, {
+        votes : userData.votes - 1
+      })
+  
+      // Set votes in state
+      setVotes(userData.votes - 1)
+    }
+
   } catch (err) {
     console.log(err)
   }    

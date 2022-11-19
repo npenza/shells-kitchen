@@ -1,7 +1,5 @@
 
 import { browserLocalPersistence, getAuth , setPersistence, signInWithEmailAndPassword } from "firebase/auth";
-import {db} from '../../../firebase'
-import {doc , getDoc} from "firebase/firestore"
 
 export const handleSignIn = async (email , password , setUser) => {
    
@@ -15,7 +13,6 @@ signInWithEmailAndPassword(auth, email, password)
   await setUser.setCurrentUsername(userCredential.user.email)
   await setUser.setEnteredEmail(userCredential.user.email)
   await setUser.setUID(userCredential.user.uid)
-  await setUser.setVotes(userData.votes)
   setUser.setErrorMessage("")
 
   // setPersistence

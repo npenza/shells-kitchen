@@ -5,6 +5,8 @@ import { useAuthStore } from '../store/useAuthStore'
 import { handleSignIn } from '../utils/auth/handleSignIn'
 import { handleSignUp } from '../utils/auth/handleSignUp'
 import { handleSignOut } from '../utils/auth/handleSignOut'
+import { useEffect} from 'react';
+import { useUserDataByUID } from '../hooks/useUserDataByUID';
 
 const Login = () => {
 
@@ -13,6 +15,7 @@ const Login = () => {
   const enteredEmail = useAuthStore((state) => state.enteredEmail)
   const enteredPassword = useAuthStore((state) => state.enteredPassword)
   const uid = useAuthStore((state) => state.uid)
+  const votes = useAuthStore((state) => state.votes)
   const errorMessage = useAuthStore((state) => state.errorMessage)
 
   // Load Redux Methods
@@ -22,11 +25,14 @@ const Login = () => {
     setEnteredPassword :useAuthStore((state) => state.setEnteredPassword),
     setAccessToken : useAuthStore((state) => state.setAccessToken),
     setUID : useAuthStore((state) => state.setUID),
-    setErrorMessage : useAuthStore((state) => state.setErrorMessage)
+    setErrorMessage : useAuthStore((state) => state.setErrorMessage),
+    setVotes : useAuthStore((state) => state.setVotes)
   }
   
   // Check for persisted login
   useAuth(useSetUser)
+
+  // const userData = useUserDataByUID(uid)
 
     return (
         <>
@@ -39,7 +45,7 @@ const Login = () => {
         <p>{errorMessage}</p>
         </div>}
         {uid && <div>
-        <p>Hello {currentUsername}</p>
+        <p>Hello {currentUsername} - You have {votes} vote remaining</p>
         <button onClick={() => handleSignOut(useSetUser)}>Log Out</button>
         </div>}
     </>

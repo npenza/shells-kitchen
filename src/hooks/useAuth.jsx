@@ -25,6 +25,8 @@ const useAuth = (setUser) => {
 
             // Assign user details to state (from collection)
             setUser.setVotes(userData.votes)
+            setUser.setCurrentFname(userData.fName)
+            setUser.setCurrentUserAvatar(userData.avatar)
 
             // Assign user details to state (from auth)
             setUser.setCurrentUsername(user.email)

@@ -25,6 +25,7 @@ createUserWithEmailAndPassword(auth, email, password)
   await setUser.setEnteredEmail(userCredential.user.email)
   await setUser.setUID(userCredential.user.uid)
   await setUser.setVotes(setNumOfVotes)
+  // add set fname
   setUser.setErrorMessage("")
   
   // setPersistence

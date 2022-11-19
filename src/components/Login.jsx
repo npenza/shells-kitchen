@@ -7,11 +7,14 @@ import { handleSignUp } from '../utils/auth/handleSignUp'
 import { handleSignOut } from '../utils/auth/handleSignOut'
 import { useEffect} from 'react';
 import { useUserDataByUID } from '../hooks/useUserDataByUID';
-
+import DebugResetButton from './DebugResetButton';
+import AsideStat from './AsideStat';
 const Login = () => {
 
   // Load Redux Props
   const currentUsername = useAuthStore((state) => state.currentUsername)
+  const currentFname = useAuthStore((state) => state.currentFname)
+  const currentUserAvatar = useAuthStore((state) => state.currentUserAvatar)
   const enteredEmail = useAuthStore((state) => state.enteredEmail)
   const enteredPassword = useAuthStore((state) => state.enteredPassword)
   const uid = useAuthStore((state) => state.uid)
@@ -21,6 +24,8 @@ const Login = () => {
   // Load Redux Methods
   const useSetUser = {
     setCurrentUsername : useAuthStore((state) => state.setCurrentUsername),
+    setCurrentFname : useAuthStore((state) => state.setCurrentFname),
+    setCurrentUserAvatar : useAuthStore((state) => state.setCurrentUserAvatar),
     setEnteredEmail : useAuthStore((state) => state.setEnteredEmail),
     setEnteredPassword :useAuthStore((state) => state.setEnteredPassword),
     setAccessToken : useAuthStore((state) => state.setAccessToken),
@@ -45,9 +50,24 @@ const Login = () => {
         <p>{errorMessage}</p>
         </div>}
         {uid && <div>
-        <p>Hello {currentUsername} - You have {votes} vote remaining</p>
-        <button onClick={() => handleSignOut(useSetUser)}>Log Out</button>
-        </div>}
+        <div className='grid grid-cols-3 shadow-md rounde py-2 my-3'>
+        <div className='col-span-1 '>
+          <img src={currentUserAvatar} className="aspect-square w-20 rounded-full mx-auto"/>
+        </div>
+        <div className='col-span-2 text-left self-center'>
+          <p className='text-2xl'>Hello {currentFname}</p>
+          <div className='space-x-3 mt-2'>
+          <button className='bg-gray-700 text-white px-3 py-1 rounded-md'>Settings</button>
+          <button className='bg-red-700 text-white px-3 py-1 rounded-md' onClick={() => handleSignOut(useSetUser)}>Log Out</button>
+          <DebugResetButton />
+          </div>
+          
+        </div>
+        </div>
+          <AsideStat stat={votes} asideText={"Votes Remaining"} />
+          <AsideStat stat={"HH:MM"} asideText={"Time Remaining"} />
+        </div>
+        }
     </>
     );
 }

@@ -7,33 +7,27 @@ import { useMealFilterStore } from '../store/useMealFilterStore';
 export function useAllMeals() {
   const [meals, setMeals] = useState(null);
 
+  let mealsToRender = []
+
   // use redux to include filters and search term
   const order = useMealFilterStore((state) => state.order)
   const rating = useMealFilterStore((state) => state.rating);
 
-
-  
-
-  
   useEffect(() => {
-    if(rating){
-      const q = query(collection(db, 'meals') , where("rating", "==", rating) , orderBy("title" , order))
-      onSnapshot(q, (querySnapshot) => {
-        setMeals(querySnapshot.docs.map(doc => ({
-          id: doc.id,
-          data: doc.data()
-        })))
-      })
+    let q;
+    
+    if (rating){
+       q = query(collection(db, 'meals'), where("rating" , "==", rating)  , orderBy("title" , order))
     } else {
-      const q = query(collection(db, 'meals') , orderBy("title" , order))
+       q = query(collection(db, 'meals') , orderBy("title" , order))
+    }
+
       onSnapshot(q, (querySnapshot) => {
         setMeals(querySnapshot.docs.map(doc => ({
           id: doc.id,
           data: doc.data()
         })))
       })
-    }
-   
 
   } , [order , rating]);
   

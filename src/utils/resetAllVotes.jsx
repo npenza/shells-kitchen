@@ -23,8 +23,10 @@ export const resetAllVotes = async (setVotes, uid) => {
       querySnapshot.docs.forEach(async (user) => {
         const prevData = user.data()
         console.log(user.id)
-        await setDoc(doc(db,  "users" , user.id ), {
-          email: prevData.email,
+        await updateDoc(doc(db,  "users" , user.id ), {
+          // email: prevData.email,
+          // avatar: prevData.avatar,
+          // fName: prevData.fName,
           votes: 1
         })
       })

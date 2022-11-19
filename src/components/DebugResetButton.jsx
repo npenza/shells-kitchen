@@ -11,7 +11,7 @@ export default function DebugResetButton() {
 
   return (
     <>
-        <button onClick={() => resetAllVotes(setVotes, uid)} className='bg-red-300'>reset votes</button>
+        <button className='bg-red-700 text-white px-3 py-1 rounded-md' onClick={() => resetAllVotes(setVotes, uid)}>Reset</button>
     </>
   )
 }

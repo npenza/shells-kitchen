@@ -19,21 +19,25 @@ export default function MealGrid() {
 
     return (
       <div>
-      <label>Sort By</label>
-      <select onChange={(e) => setOrder(e.target.value)}>
-        <option value="asc">A-Z</option>
-        <option value="desc">Z-A</option>
-      </select>
+      {/* <label>Sort By</label>
+      
       <label>
       Rating</label>
-      <select onChange={(e) => setRating(e.target.value)} className='bg-gray-200' label='Rating' name="" id="">
+      <select onChange={(e) => setRating(e.target.value)} className='bg-gray-200' placeholder='none' label='Rating' name="" id="">
       <option value="">All</option>
       <option value="Light">Light</option>
       <option value="Medium">Medium</option>
       <option value="Heavy">Heavy</option>
       </select>
-      <input type="text" placeholder='search' className='bg-gray-200' value={searchTerm} onChange={(e) => setSearchTerm(e.target.value)} />
-      <div className='meal-grid grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 md:space-x-3'>
+      <input type="text" placeholder='search' className='bg-gray-200' value={searchTerm} onChange={(e) => setSearchTerm(e.target.value)} /> */}
+      <div className='filters w-100 grid grid-cols-12 my-3'>
+      <select className='p-2 rounded-sm' onChange={(e) => setOrder(e.target.value)}>
+        <option value="asc">A-Z</option>
+        <option value="desc">Z-A</option>
+      </select>
+      </div>
+      
+      <div className='meal-grid grid'>
       {meals && meals.map((meal) => (
         <MealCard key={meal.id} id={meal.id} meal={meal.data} />
       ))}

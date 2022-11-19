@@ -1,22 +1,33 @@
 import React, { useState } from 'react'
 import MealCard from '../components/MealCard';
 import { useAllMeals } from '../hooks/useAllMeals';
+import { useMealFilterStore } from '../store/useMealFilterStore';
 
 export default function MealGrid() {
 
   const [searchTerm , setSearchTerm] = useState("")
-  const [rating , setRating] = useState("")
+  
   const meals  = useAllMeals()
 
-  // use redux to update filters
-  // use redux to update search term
+  // Load Redux Props
+  const order = useMealFilterStore((state) => state.order);
+  const rating = useMealFilterStore((state) => state.rating);
+
+  // Load Redux Methods
+  const setOrder = useMealFilterStore((state) => state.setOrder);
+  const setRating = useMealFilterStore((state) => state.setRating);
 
     return (
       <div>
+      <label>Sort By</label>
+      <select onChange={(e) => setOrder(e.target.value)}>
+        <option value="asc">A-Z</option>
+        <option value="desc">Z-A</option>
+      </select>
       <label>
       Rating</label>
-      <select onChange={(e) => handleFilterUpdate(e.target.value)} className='bg-gray-200' label='Rating' name="" id="">
-      <option value="Light">All</option>
+      <select onChange={(e) => setRating(e.target.value)} className='bg-gray-200' label='Rating' name="" id="">
+      <option value="">All</option>
       <option value="Light">Light</option>
       <option value="Medium">Medium</option>
       <option value="Heavy">Heavy</option>

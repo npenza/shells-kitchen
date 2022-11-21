@@ -12,6 +12,7 @@ export const useAuthStore = create((set) => ({
     familyUID: "",
     errorMessage: "",
     votes: 0,
+    loading: false,
     setEnteredEmail: (newEmail) => set((state) => ({ enteredEmail: newEmail })),
     setEnteredPassword: (newPassword) => set((state) => ({ enteredPassword: newPassword })),
     setCurrentUsername: (newUsername) => set((state) => ({ currentUsername: newUsername })),
@@ -23,4 +24,5 @@ export const useAuthStore = create((set) => ({
     setFamilyUID: (newFamilyUID) => set((state) => ({ familyUID: newFamilyUID })),
     setErrorMessage: (newErrorMessage) => set((state) => ({ errorMessage: newErrorMessage })),
     setVotes: (newUserVotes) => set((state) => ({ votes: newUserVotes })),
+    setLoading: (newLoadingState) => set((state) => ({ loading: newLoadingState }))
 }))

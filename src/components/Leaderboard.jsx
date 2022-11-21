@@ -17,8 +17,6 @@ export default function Leaderboard({familyUID}) {
           <h2 className='text-xl font-medium'>{meal.data.title}</h2>
           <p>{meal.data.votes} {meal.data.votes == 1 ? "voter" : "voters"}</p>
         </div>
-
-        {/* <p key={meal.id}>{meal.data.title} - {meal.data.votes}</p> */}
         </div>
       ))}
     </div>

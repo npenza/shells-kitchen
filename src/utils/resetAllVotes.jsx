@@ -21,9 +21,6 @@ export const resetAllVotes = async (setVotes, uid) => {
         const prevData = user.data()
         console.log(user.id)
         await updateDoc(doc(db,  "users" , user.id ), {
-          // email: prevData.email,
-          // avatar: prevData.avatar,
-          // fName: prevData.fName,
           votes: 1
         })
       })

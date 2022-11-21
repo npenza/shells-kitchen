@@ -8,6 +8,7 @@ import { useAuthStore } from '../store/useAuthStore';
 
 export default function AddMealForm() {
 
+    // form data
     const [title , setTitle] = useState("")
     const [img , setImg] = useState("")
     const [rating , setRating] = useState("")

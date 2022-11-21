@@ -29,7 +29,8 @@ const Signup = () => {
     setAccessToken : useAuthStore((state) => state.setAccessToken),
     setUID : useAuthStore((state) => state.setUID),
     setErrorMessage : useAuthStore((state) => state.setErrorMessage),
-    setVotes : useAuthStore((state) => state.setVotes)
+    setVotes : useAuthStore((state) => state.setVotes),
+    setLoading : useAuthStore((state) => state.setLoading)
   }
 
   // Upload File
@@ -58,7 +59,6 @@ const Signup = () => {
       }
   ); 
   }
-
     return (
         <div>
             <label>avatar</label>
@@ -67,7 +67,7 @@ const Signup = () => {
             <input className='bg-gray-300' placeholder="Last Name" onChange={(e) => useSetUser.setCurrentLname(e.target.value)} value={currentLname} type="text" name="Lname" id="" />
             <input className='bg-gray-300' placeholder="Email" onChange={(e) => useSetUser.setEnteredEmail(e.target.value)} value={enteredEmail} type="text" name="email" id="" />
             <input className='bg-gray-300' placeholder="Password" onChange={(e) => useSetUser.setEnteredPassword(e.target.value)} value={enteredPassword} type="password" name="email" id="" />
-            <button onClick={() => handleSignUp(currentFname , currentLname, currentUserAvatar , enteredEmail , enteredPassword , useSetUser)}>Sign Up</button>
+            <button onClick={() => handleSignUp(currentFname , currentLname, currentUserAvatar , enteredEmail , enteredPassword , useSetUser , "")}>Sign Up</button>
         </div>
     );
 }

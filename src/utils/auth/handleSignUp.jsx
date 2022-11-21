@@ -4,6 +4,8 @@ import {db} from '../../../firebase'
 import {doc , setDoc } from "firebase/firestore"
 import {useState} from 'react'
 import { handleSignInProvider } from "./handleSignInProvider";
+import { useAuth } from "../../hooks/useAuth";
+import { useAuthStore } from "../../store/useAuthStore";
 
 export const handleSignUp = async (Fname , Lname , avatar , email , password , setUser , useruidprovider) => {
    
@@ -22,7 +24,7 @@ if (useruidprovider){
     avatar: avatar
   })
 
-  handleSignInProvider(setUser)
+  // handleSignInProvider(setUser)
 
 } else {
   createUserWithEmailAndPassword(auth, email, password)
@@ -43,21 +45,29 @@ if (useruidprovider){
   })
 }
 
-  // Signed up & in 
-  await setUser.setCurrentUsername(userCredential.user.email)
-  await setUser.setEnteredEmail(userCredential.user.email)
-  await setUser.setUID(userCredential.user.uid)
-  await setUser.setVotes(setNumOfVotes)
-  // add set avatar
-  await setUser.setCurrentFname(Fname)
-  await setUser.setCurrentLname(Lname)
-  await setUser.setCurrentAvatar(avatar)
-  setUser.setErrorMessage("")
+
+
+  // // Signed up & in 
+  // await setUser.setCurrentUsername(userCredential.user.email)
+  // await setUser.setEnteredEmail(userCredential.user.email)
+  // await setUser.setUID(userCredential.user.uid)
+  // await setUser.setVotes(setNumOfVotes)
+  // // add set avatar
+  // await setUser.setCurrentFname(Fname)
+  // await setUser.setCurrentLname(Lname)
+  // await setUser.setCurrentAvatar(avatar)
+  // setUser.setErrorMessage("")
   
   // setPersistence
   await setPersistence(auth, browserLocalPersistence)
 
-  
+  setUser.setLoading(true)
+
+  setInterval(() => {
+    setUser.setLoading(false)
+    location.reload()
+  }, 6000);
+
   // setUser.setEnteredEmail("")
   // setUser.setEnteredPassword("")
 }

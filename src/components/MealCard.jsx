@@ -23,17 +23,11 @@ export default function MealCard({meal , id}) {
       <div className='col-span-9 ml-24 md:ml-20 xl:ml-10 span-8 self-center'>
       <p className={meal.rating} >{meal.rating}</p>
       <p className=' text-3xl font-bold'>{meal.title}</p>
-      <p className=' text-sm font-medium font-bold'>{meal.description}</p>
+      <p className=' text-sm font-medium'>{meal.description}</p>
       </div>
       <div className='col-span-2 self-center text-center'>
       <button onClick={() => handleVote(meal , id , setVotes , uid)} className='bg-gray-600 hover:bg-green-700 transition-all ease-in-out duration-100 rounded py-2 px-2 m-2'><img src="vote.png" className='w-10 aspect-square' /></button>
       </div>
-
-        {/* 
-        <div className='grid grid-cols-4'>
-        <div className='grid col-span-3'>
-        </div>
-        </div> */}
     </div>
   )
 }

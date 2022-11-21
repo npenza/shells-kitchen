@@ -10,7 +10,7 @@ import { useUserDataByUID } from '../hooks/useUserDataByUID';
 import DebugResetButton from './DebugResetButton';
 import AsideStat from './AsideStat';
 
-const Login = () => {
+const Login = ({useSetUser}) => {
 
   // Load Redux Props
   const currentUsername = useAuthStore((state) => state.currentUsername)
@@ -20,27 +20,12 @@ const Login = () => {
   const enteredEmail = useAuthStore((state) => state.enteredEmail)
   const enteredPassword = useAuthStore((state) => state.enteredPassword)
   const uid = useAuthStore((state) => state.uid)
+  const familyUID = useAuthStore((state) => state.familyUID)
   const votes = useAuthStore((state) => state.votes)
   const errorMessage = useAuthStore((state) => state.errorMessage)
 
-  // Load Redux Methods
-  const useSetUser = {
-    setCurrentUsername : useAuthStore((state) => state.setCurrentUsername),
-    setCurrentFname : useAuthStore((state) => state.setCurrentFname),
-    setCurrentLname : useAuthStore((state) => state.setCurrentLname),
-    setCurrentUserAvatar : useAuthStore((state) => state.setCurrentUserAvatar),
-    setEnteredEmail : useAuthStore((state) => state.setEnteredEmail),
-    setEnteredPassword :useAuthStore((state) => state.setEnteredPassword),
-    setAccessToken : useAuthStore((state) => state.setAccessToken),
-    setUID : useAuthStore((state) => state.setUID),
-    setErrorMessage : useAuthStore((state) => state.setErrorMessage),
-    setVotes : useAuthStore((state) => state.setVotes)
-  }
-  
   // Check for persisted login
   useAuth(useSetUser)
-
-  // const userData = useUserDataByUID(uid)
 
     return (
         <>

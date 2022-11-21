@@ -1,9 +1,9 @@
 import React from 'react'
 import { useMealsWithVotes } from '../hooks/useMealsWithVotes'
 
-export default function Leaderboard() {
+export default function Leaderboard({familyUID}) {
 
-  const votes = useMealsWithVotes()
+  const votes = useMealsWithVotes(familyUID)
 
   return (
     <div className='flex flex-col'>

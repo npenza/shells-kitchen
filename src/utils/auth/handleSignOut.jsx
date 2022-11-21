@@ -10,6 +10,7 @@ export const handleSignOut = (useSetUser) => {
       useSetUser.setCurrentFname("")
       useSetUser.setCurrentLname("")
       useSetUser.setUID("")
+      useSetUser.setFamilyUID("")
     }).catch((error) => {
       // An error happened.
       console.log("error:", error)

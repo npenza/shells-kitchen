@@ -9,6 +9,7 @@ export const useAuthStore = create((set) => ({
     currentLname: "",
     accessToken: "",
     uid: "",
+    familyUID: "",
     errorMessage: "",
     votes: 0,
     setEnteredEmail: (newEmail) => set((state) => ({ enteredEmail: newEmail })),
@@ -19,6 +20,7 @@ export const useAuthStore = create((set) => ({
     setCurrentUserAvatar: (newUserAvatar) => set((state) => ({ currentUserAvatar: newUserAvatar })),
     setAccessToken: (newAccessToken) => set((state) => ({ accessToken: newAccessToken })),
     setUID: (newUID) => set((state) => ({ uid: newUID })),
+    setFamilyUID: (newFamilyUID) => set((state) => ({ familyUID: newFamilyUID })),
     setErrorMessage: (newErrorMessage) => set((state) => ({ errorMessage: newErrorMessage })),
     setVotes: (newUserVotes) => set((state) => ({ votes: newUserVotes })),
 }))

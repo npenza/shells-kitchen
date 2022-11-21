@@ -3,6 +3,7 @@ import {collection, query, orderBy, where, onSnapshot} from "firebase/firestore"
 import {db} from '../../firebase'
 import {doc , getDoc} from "firebase/firestore"
 import { useMealFilterStore } from '../store/useMealFilterStore';
+import { useAuthStore } from '../store/useAuthStore';
 
 export function useAllMeals() {
   const [meals, setMeals] = useState(null);
@@ -12,6 +13,7 @@ export function useAllMeals() {
   // use redux to include filters and search term
   const order = useMealFilterStore((state) => state.order)
   const rating = useMealFilterStore((state) => state.rating);
+  const familyUID = useAuthStore((state) => state.familyUID)
 
   useEffect(() => {
     let q;
@@ -19,7 +21,7 @@ export function useAllMeals() {
     if (rating){
        q = query(collection(db, 'meals'), where("rating" , "==", rating)  , orderBy("title" , order))
     } else {
-       q = query(collection(db, 'meals') , orderBy("title" , order))
+       q = query(collection(db, 'meals') , where("familyUID" , "==" , familyUID), orderBy("title" , order))
     }
 
       onSnapshot(q, (querySnapshot) => {
@@ -29,7 +31,7 @@ export function useAllMeals() {
         })))
       })
 
-  } , [order , rating]);
+  } , [order , rating , familyUID]);
   
     return meals;
 

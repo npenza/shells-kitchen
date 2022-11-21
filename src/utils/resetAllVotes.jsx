@@ -9,10 +9,7 @@ export const resetAllVotes = async (setVotes, uid) => {
      onSnapshot(qMeals, (querySnapshot) => {
       querySnapshot.docs.forEach(async (meal) => {
         const prevData = meal.data()
-        await setDoc(doc(db,  "meals" , meal.id ), {
-          title: prevData.title,
-          img: prevData.img,
-          rating: prevData.rating,
+        await updateDoc(doc(db,  "meals" , meal.id ), {
           votes: 0
         })
       })

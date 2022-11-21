@@ -8,7 +8,8 @@ import { useAuthStore } from './store/useAuthStore'
 import {useState} from 'react'
 import Signup from './components/Signup'
 import { handleSignInProvider } from './utils/auth/handleSignInProvider'
-
+import { doc, updateDoc , getDoc } from 'firebase/firestore'
+import { db } from '../firebase'
 function App() {
 
   // Load Redux Props
@@ -19,6 +20,7 @@ function App() {
   const enteredEmail = useAuthStore((state) => state.enteredEmail)
   const enteredPassword = useAuthStore((state) => state.enteredPassword)
   const uid = useAuthStore((state) => state.uid)
+  const familyUID = useAuthStore((state) => state.familyUID)
   const votes = useAuthStore((state) => state.votes)
   const errorMessage = useAuthStore((state) => state.errorMessage)
 
@@ -32,6 +34,7 @@ function App() {
     setEnteredPassword :useAuthStore((state) => state.setEnteredPassword),
     setAccessToken : useAuthStore((state) => state.setAccessToken),
     setUID : useAuthStore((state) => state.setUID),
+    setFamilyUID : useAuthStore((state) => state.setFamilyUID),
     setErrorMessage : useAuthStore((state) => state.setErrorMessage),
     setVotes : useAuthStore((state) => state.setVotes)
   }
@@ -50,6 +53,44 @@ function App() {
     }
   }
 
+
+  // FamilyUID
+  const [familyUIDInput , setFamilyUIDInput] = useState("")
+
+  const handleFamilyJoin = async () => {
+    const userDocRef = doc(db, 'users', uid)
+    try{
+      const docSnap = await getDoc(userDocRef);
+      const userData = docSnap.data()
+
+      if (userData){
+        await updateDoc(doc(db,  "users" , uid), {
+          familyUID: familyUIDInput,
+        })
+      }
+      useSetUser.setFamilyUID(familyUIDInput)
+    } catch (e) {
+      console.log(e)
+    }
+  }
+
+  const handleLeaveFamily = async () => {
+    const userDocRef = doc(db, 'users', uid)
+    try{
+      const docSnap = await getDoc(userDocRef);
+      const userData = docSnap.data()
+
+      if (userData){
+        await updateDoc(doc(db,  "users" , uid), {
+          familyUID: "",
+        })
+      }
+      useSetUser.setFamilyUID("")
+    } catch (e) {
+      console.log(e)
+    }
+  }
+
   return(
     <div>
     {/* Logged In */}
@@ -57,8 +98,10 @@ function App() {
       <h1 className='text-3xl font-bold uppercase'>Shell's Kitchen</h1>
       <div className='grid grid-cols-12 space-x-5'>
       <div className='col-span-12 md:col-span-3'>
-      <Login />
-      <Leaderboard />
+      <Login useSetUser={useSetUser}/>
+      {familyUID && <div><Leaderboard familyUID={familyUID} /><br /><p>Your family UID is: {familyUID}</p><button onClick={() => handleLeaveFamily()}>Leave Family</button></div>}
+      {!familyUID && <div><label>Enter Family Code:</label><input type="text" onChange={(e) => setFamilyUIDInput(e.target.value)} /><button onClick={() => handleFamilyJoin()}>Join</button></div>}
+      
       </div>
       <div className='col-span-12 md:col-span-9 ml-0 md:ml-5'>
       <MealGrid />
@@ -76,7 +119,7 @@ function App() {
         <button className='bg-gray-200 col-span-1 my-1 py-1 rounded-md' onClick={() => handleSignInProvider(useSetUser)}>Log In With Google</button>
         <button className='bg-gray-200 col-span-1 my-1 py-1 rounded-md' onClick={() => handleShowModal("signup")}>Sign Up</button>
       </div>
-      {showLogin && <Login />}
+      {showLogin && <Login useSetUser={useSetUser} />}
       {showSignUp && <Signup/>}
       </div>
     }

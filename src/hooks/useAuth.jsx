@@ -29,6 +29,9 @@ const useAuth = (setUser) => {
               await setUser.setCurrentFname(userData.Fname)
               await setUser.setCurrentLname(userData.Lname)
               await setUser.setCurrentUserAvatar(userData.avatar)
+              if(userData.familyUID){
+                await setUser.setFamilyUID(userData.familyUID)
+              }
   
               // Assign user details to state (from auth)
               await setUser.setCurrentUsername(user.email)

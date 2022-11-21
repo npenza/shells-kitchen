@@ -3,6 +3,7 @@ import { useState } from 'react'
 import { handleAddMeal } from '../utils/handleAddMeal'
 import { uploadBytes, uploadBytesResumable , ref , getDownloadURL} from 'firebase/storage';
 import { storage } from '../../firebase';
+import { useAuthStore } from '../store/useAuthStore';
 
 
 export default function AddMealForm() {
@@ -10,9 +11,10 @@ export default function AddMealForm() {
     const [title , setTitle] = useState("")
     const [img , setImg] = useState("")
     const [rating , setRating] = useState("")
+    const familyUID = useAuthStore((state) => state.familyUID)
 
     const handleSubmit = () => {
-        handleAddMeal(title , img , rating)
+        handleAddMeal(title , img , rating , familyUID)
         
         // Reset Local Use States
         setTitle("")

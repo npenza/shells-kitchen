@@ -18,20 +18,23 @@ const useAuth = (setUser) => {
           if (mounted.current) {
             setUserLocal(user);
 
-            // Once user is logged in, find their details eg. votes, settings
+            // Once user is logged in, find their details eg. votes, settings , name
             const docRef = doc(db, "users", user.uid)
             const docSnap = await getDoc(docRef);
-            const userData = docSnap.data()
+            const userData = await docSnap.data()
 
             // Assign user details to state (from collection)
-            setUser.setVotes(userData.votes)
-            setUser.setCurrentFname(userData.fName)
-            setUser.setCurrentUserAvatar(userData.avatar)
-
-            // Assign user details to state (from auth)
-            setUser.setCurrentUsername(user.email)
-            setUser.setEnteredEmail(user.email)
-            setUser.setUID(user.uid)
+            if(userData){
+              await setUser.setVotes(userData.votes)
+              await setUser.setCurrentFname(userData.Fname)
+              await setUser.setCurrentLname(userData.Lname)
+              await setUser.setCurrentUserAvatar(userData.avatar)
+  
+              // Assign user details to state (from auth)
+              await setUser.setCurrentUsername(user.email)
+              await setUser.setEnteredEmail(user.email)
+              await setUser.setUID(user.uid)
+            }
           }
         } else {
           if (mounted.current) {

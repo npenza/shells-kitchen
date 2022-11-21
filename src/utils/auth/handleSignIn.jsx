@@ -4,7 +4,8 @@ import { browserLocalPersistence, getAuth , setPersistence, signInWithEmailAndPa
 export const handleSignIn = async (email , password , setUser) => {
    
 const auth = getAuth();
-setUser.setErrorMessage("")
+
+// setUser.setErrorMessage("")
 
 signInWithEmailAndPassword(auth, email, password)
   .then(async (userCredential) => {
@@ -13,7 +14,7 @@ signInWithEmailAndPassword(auth, email, password)
   await setUser.setCurrentUsername(userCredential.user.email)
   await setUser.setEnteredEmail(userCredential.user.email)
   await setUser.setUID(userCredential.user.uid)
-  setUser.setErrorMessage("")
+  // setUser.setErrorMessage("")
 
   // setPersistence
   await setPersistence(auth, browserLocalPersistence)

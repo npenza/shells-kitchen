@@ -9,11 +9,13 @@ import { useEffect} from 'react';
 import { useUserDataByUID } from '../hooks/useUserDataByUID';
 import DebugResetButton from './DebugResetButton';
 import AsideStat from './AsideStat';
+
 const Login = () => {
 
   // Load Redux Props
   const currentUsername = useAuthStore((state) => state.currentUsername)
   const currentFname = useAuthStore((state) => state.currentFname)
+  const currentLname = useAuthStore((state) => state.currentLname)
   const currentUserAvatar = useAuthStore((state) => state.currentUserAvatar)
   const enteredEmail = useAuthStore((state) => state.enteredEmail)
   const enteredPassword = useAuthStore((state) => state.enteredPassword)
@@ -25,6 +27,7 @@ const Login = () => {
   const useSetUser = {
     setCurrentUsername : useAuthStore((state) => state.setCurrentUsername),
     setCurrentFname : useAuthStore((state) => state.setCurrentFname),
+    setCurrentLname : useAuthStore((state) => state.setCurrentLname),
     setCurrentUserAvatar : useAuthStore((state) => state.setCurrentUserAvatar),
     setEnteredEmail : useAuthStore((state) => state.setEnteredEmail),
     setEnteredPassword :useAuthStore((state) => state.setEnteredPassword),
@@ -52,11 +55,11 @@ const Login = () => {
         {uid && <div>
         <div className='grid grid-cols-3 shadow-md rounde py-2 my-3'>
         <div className='col-span-1 '>
-          <img src={currentUserAvatar} className="aspect-square w-20 rounded-full mx-auto"/>
+          <img src={currentUserAvatar} className="aspect-square w-20 rounded-full mx-auto object-cover"/>
         </div>
         <div className='col-span-2 text-left self-center'>
           <p className='text-2xl'>Hello {currentFname}</p>
-          <div className='space-x-3 mt-2'>
+          <div className='space-x-3'>
           <button className='bg-gray-700 text-white px-3 py-1 rounded-md'>Settings</button>
           <button className='bg-red-700 text-white px-3 py-1 rounded-md' onClick={() => handleSignOut(useSetUser)}>Log Out</button>
           <DebugResetButton />

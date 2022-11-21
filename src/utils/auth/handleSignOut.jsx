@@ -4,9 +4,11 @@ export const handleSignOut = (useSetUser) => {
   const auth = getAuth()
   
     signOut(auth).then(() => {
-      // Sign-out successful.
+      // Sign-out successful. (TODO - populate all useSetuUser fields)
       useSetUser.setCurrentUsername("")
       useSetUser.setEnteredEmail("")
+      useSetUser.setCurrentFname("")
+      useSetUser.setCurrentLname("")
       useSetUser.setUID("")
     }).catch((error) => {
       // An error happened.

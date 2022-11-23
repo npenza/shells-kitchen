@@ -16,7 +16,9 @@ export const handleVote = async (meal , id , setVotes , uid) => {
     //Can the user vote?
     if (userData.votes == 0){
       alert("You have ran out of votes haha")
-    } else {
+    } else if (!userData.familyUID){
+      location.reload()
+    } {
       // Update meal votes
       await updateDoc(mealDocRef, {
         votes : meal.votes + 1

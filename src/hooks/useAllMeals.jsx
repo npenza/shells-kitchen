@@ -5,7 +5,7 @@ import {doc , getDoc} from "firebase/firestore"
 import { useMealFilterStore } from '../store/useMealFilterStore';
 import { useAuthStore } from '../store/useAuthStore';
 
-export function useAllMeals() {
+export function useAllMeals(visable) {
   const [meals, setMeals] = useState(null);
 
   let mealsToRender = []
@@ -19,9 +19,11 @@ export function useAllMeals() {
     let q;
     
     if (rating){
-       q = query(collection(db, 'meals'), where("rating" , "==", rating)  , orderBy("title" , order))
+       q = query(collection(db, 'meals'), where("rating" , "==", rating)  , where("hidden" , "==" , false) , orderBy("title" , order))
+    } else if (visable == false){
+       q = query(collection(db, 'meals') , where("familyUID" , "==" , familyUID), where("hidden" , "==" , true) , orderBy("title" , order))
     } else {
-       q = query(collection(db, 'meals') , where("familyUID" , "==" , familyUID), orderBy("title" , order))
+      q = query(collection(db, 'meals') , where("familyUID" , "==" , familyUID), where("hidden" , "==" , false) , orderBy("title" , order))
     }
 
       onSnapshot(q, (querySnapshot) => {

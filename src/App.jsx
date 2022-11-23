@@ -11,6 +11,8 @@ import { handleSignInProvider } from './utils/auth/handleSignInProvider'
 import { doc, updateDoc , getDoc, limit } from 'firebase/firestore'
 import { db } from '../firebase'
 import { useAllFamilyMembers } from './hooks/useAllFamilyMembers'
+import FamilyAside from './components/FamilyAside'
+import FamilyMembersAside from './components/FamilyMembersAside'
 function App() {
 
   // Load Redux Props
@@ -24,6 +26,7 @@ function App() {
   const familyUID = useAuthStore((state) => state.familyUID)
   const votes = useAuthStore((state) => state.votes)
   const errorMessage = useAuthStore((state) => state.errorMessage)
+  const admin = useAuthStore((state) => state.admin)
 
   const loading = useAuthStore((state) => state.loading)
 
@@ -41,8 +44,9 @@ function App() {
     setFamilyUID : useAuthStore((state) => state.setFamilyUID),
     setErrorMessage : useAuthStore((state) => state.setErrorMessage),
     setVotes : useAuthStore((state) => state.setVotes),
-    setLoading : useAuthStore((state) => state.setLoading)
-
+    setLoading : useAuthStore((state) => state.setLoading),
+    setAdmin : useAuthStore((state) => state.setAdmin),
+    setSuperAdmin : useAuthStore((state) => state.setSuperAdmin)
   }
 
   // Login / Sign Up modal
@@ -62,13 +66,9 @@ function App() {
 
   // FamilyUID
   const [familyUIDInput , setFamilyUIDInput] = useState("")
-  const familyMembers = useAllFamilyMembers()
 
-  // console.log(familyMembers.forEach((member) => {
-  //   console.log(member)
-  // }))
 
-  const handleFamilyJoin = async () => {
+  const handleJoinFamily = async () => {
     const userDocRef = doc(db, 'users', uid)
     try{
       const docSnap = await getDoc(userDocRef);
@@ -85,22 +85,7 @@ function App() {
     }
   }
 
-  const handleLeaveFamily = async () => {
-    const userDocRef = doc(db, 'users', uid)
-    try{
-      const docSnap = await getDoc(userDocRef);
-      const userData = docSnap.data()
-
-      if (userData){
-        await updateDoc(doc(db,  "users" , uid), {
-          familyUID: "",
-        })
-      }
-      useSetUser.setFamilyUID("")
-    } catch (e) {
-      console.log(e)
-    }
-  }
+  
 
   return(
     <div>
@@ -111,28 +96,15 @@ function App() {
       <div className='grid grid-cols-12 space-x-5'>
       <div className='col-span-12 md:col-span-3'>
       <Login useSetUser={useSetUser}/>
-      {familyUID && <div><Leaderboard familyUID={familyUID} /><br /><p>Your family UID is: {familyUID}</p><button onClick={() => handleLeaveFamily()}>Leave Family</button>
-      {familyMembers && familyMembers.map((member) => (
-        <div className='grid grid-cols-4 h-20 bg-white shadow-md rounded-md my-5 px-3'>
-        <div className='col-span-1'>
-        <img src={member.data.avatar} className="w-14 rounded-full self-center aspect-square object-cover my-2"/>
-        {member.data.votes == 0 ? <p className="relative top-[-25px]">✅</p> : <p className="relative top-[-25px]">🤔</p>}
-        </div>
-        <div className='col-span-3 self-center items-center'>
-        <p className='text-left text-xl'>{member.data.Fname} {member.data.Lname}</p>
-        </div>
-        </div>
-      ))}
-      </div>}
-
-      {!familyUID && <div><label>Enter Family Code:</label><input type="text" onChange={(e) => setFamilyUIDInput(e.target.value)} /><button onClick={() => handleFamilyJoin()}>Join</button></div>}
+      {familyUID && <div><FamilyAside familyUID={familyUID} uid={uid} useSetUser={useSetUser} /><FamilyMembersAside /></div> }
+      {!familyUID && <div><label>Enter Family Code:</label><input type="text" onChange={(e) => setFamilyUIDInput(e.target.value)} /><button onClick={() => handleJoinFamily(familyUIDInput , useSetUser)}>Join</button></div>}
       
       </div>
       <div className='col-span-12 md:col-span-9 ml-0 md:ml-5'>
       <MealGrid />
       </div>
       </div>
-      <AddMealForm />
+      {/* {admin && <AddMealForm />} */}
       </div>
     }
 
@@ -150,7 +122,7 @@ function App() {
     } </div> }
 
 
-
+    {/* Loading State */}
     {loading && <p>Loading...</p>}
 
     </div>

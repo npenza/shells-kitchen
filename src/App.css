@@ -3,6 +3,17 @@
     margin: 0 auto;
     padding: 2rem;
     text-align: center;
+    background: #fffffff2;
+    margin-top: 20px;
+    min-height: 100vh;
+    border-radius: 15px;
+}
+
+html {
+    background-blend-mode: multiply, multiply;
+    background-image: linear-gradient(to top, #0ba360 0%, #3cba92 100%);
+    background-repeat: no-repeat;
+    min-height: 100vh;
 }
 
 

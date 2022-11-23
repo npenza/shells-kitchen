@@ -29,6 +29,8 @@ const useAuth = (setUser) => {
               await setUser.setCurrentFname(userData.Fname)
               await setUser.setCurrentLname(userData.Lname)
               await setUser.setCurrentUserAvatar(userData.avatar)
+              await setUser.setAdmin(userData.admin)
+              await setUser.setSuperAdmin(userData.SuperAdmin)
               if(userData.familyUID){
                 await setUser.setFamilyUID(userData.familyUID)
               }

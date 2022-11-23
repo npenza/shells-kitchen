@@ -30,6 +30,8 @@ signInWithPopup(auth, provider)
     if (userData){
       console.log("found user in DB")
       // Find collection info
+      await useSetUser.setAdmin(userData.admin)
+
 
       // Set here
       await useSetUser.setCurrentUsername(user.email)

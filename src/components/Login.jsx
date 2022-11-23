@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { getAuth } from "firebase/auth";
 import { useAuth } from '../hooks/useAuth'
 import { useAuthStore } from '../store/useAuthStore'
@@ -9,6 +9,9 @@ import { useEffect} from 'react';
 import { useUserDataByUID } from '../hooks/useUserDataByUID';
 import DebugResetButton from './DebugResetButton';
 import AsideStat from './AsideStat';
+import Countdown from 'react-countdown';
+import { useAllFamilyMembers } from '../hooks/useAllFamilyMembers';
+import SettingModal from './Modals/SettingModal';
 
 const Login = ({useSetUser}) => {
 
@@ -23,12 +26,20 @@ const Login = ({useSetUser}) => {
   const familyUID = useAuthStore((state) => state.familyUID)
   const votes = useAuthStore((state) => state.votes)
   const errorMessage = useAuthStore((state) => state.errorMessage)
+  const admin = useAuthStore((state) => state.admin)
+  const SuperAdmin = useAuthStore((state) => state.SuperAdmin)
 
   // Check for persisted login
   useAuth(useSetUser)
 
+  // Settings Modal
+  const [settingsOpen , setSettingsOpen] = useState(false)
+
+  const familyMembers = useAllFamilyMembers()
     return (
         <>
+        {settingsOpen && <SettingModal setSettingsOpen={setSettingsOpen} useSetUser={useSetUser} />}
+
         {!uid && <div>
         <input className='bg-gray-300' placeholder="Email" onChange={(e) => useSetUser.setEnteredEmail(e.target.value)} value={enteredEmail} type="text" name="email" id="" />
         <input className='bg-gray-300' placeholder="Password" onChange={(e) => useSetUser.setEnteredPassword(e.target.value)} value={enteredPassword} type="password" name="email" id="" />
@@ -45,15 +56,16 @@ const Login = ({useSetUser}) => {
         <div className='col-span-2 text-left self-center'>
           <p className='text-2xl'>Hello {currentFname}</p>
           <div className='space-x-3'>
-          <button className='bg-gray-700 text-white px-3 py-1 rounded-md'>Settings</button>
+          <button className='bg-gray-700 text-white px-3 py-1 rounded-md' onClick={() => setSettingsOpen(true)}>Settings</button>
           <button className='bg-red-700 text-white px-3 py-1 rounded-md' onClick={() => handleSignOut(useSetUser)}>Log Out</button>
-          <DebugResetButton />
+          { SuperAdmin && <DebugResetButton />}
           </div>
           
         </div>
         </div>
           <AsideStat stat={votes} asideText={"Votes Remaining"} />
           <AsideStat stat={"HH:MM"} asideText={"Time Remaining"} />
+          {/* <Countdown  /> */}
         </div>
         }
     </>

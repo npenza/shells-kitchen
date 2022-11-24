@@ -1,10 +1,9 @@
 import React from 'react'
 import { useState } from 'react'
 import { handleAddMeal } from '../utils/handleAddMeal'
-import { uploadBytes, uploadBytesResumable , ref , getDownloadURL} from 'firebase/storage';
+import { uploadBytesResumable , ref , getDownloadURL} from 'firebase/storage';
 import { storage } from '../../firebase';
 import { useAuthStore } from '../store/useAuthStore';
-import MealCard from './MealCard';
 import MealCardPREVIEW from './MealCardPREVIEW';
 
 
@@ -17,9 +16,7 @@ export default function AddMealForm({setShowAddMeal}) {
     const [rating , setRating] = useState("")
     const familyUID = useAuthStore((state) => state.familyUID)
 
-    // error titles
 
-    const [submitActive , setSubmitActive] = useState(false)
 
     const checkActive = () => {
       if(title && img && description && rating){

@@ -1,5 +1,5 @@
 #root {
-    max-width: 1510px;
+    max-width: 1810px;
     margin: 0 auto;
     padding: 2rem;
     text-align: center;
@@ -10,9 +10,7 @@
 }
 
 html {
-    background-blend-mode: multiply, multiply;
-    background-image: linear-gradient(to top, #0ba360 0%, #3cba92 100%);
-    background-repeat: no-repeat;
+    background-color: #28282a;
     min-height: 100vh;
 }
 

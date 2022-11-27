@@ -46,7 +46,8 @@ function App() {
     setVotes : useAuthStore((state) => state.setVotes),
     setLoading : useAuthStore((state) => state.setLoading),
     setAdmin : useAuthStore((state) => state.setAdmin),
-    setSuperAdmin : useAuthStore((state) => state.setSuperAdmin)
+    setSuperAdmin : useAuthStore((state) => state.setSuperAdmin),
+    setMealVotedFor : useAuthStore((state) => state.setMealVotedFor)
   }
 
   // Login / Sign Up modal
@@ -97,7 +98,12 @@ function App() {
       <div className='col-span-12 md:col-span-3'>
       <Login useSetUser={useSetUser}/>
       {familyUID && <div><FamilyAside familyUID={familyUID} uid={uid} useSetUser={useSetUser} /><FamilyMembersAside /></div> }
-      {!familyUID && <div><label>Enter Family Code:</label><input type="text" onChange={(e) => setFamilyUIDInput(e.target.value)} /><button onClick={() => handleJoinFamily(familyUIDInput , useSetUser)}>Join</button></div>}
+      {!familyUID && 
+      <div className='bg-gray-200 p-5 my-3 grid grid-cols-5 self-center justify-center rounded-md space-x-2'>
+      <label className='self-center col-span-2 '>Enter Family Code:</label>
+      <input className='px-4 col-span-2' type="text" onChange={(e) => setFamilyUIDInput(e.target.value)} />
+      <button className='bg-green-400 rounded-sm px-2 py-[5px]' onClick={() => handleJoinFamily(familyUIDInput , useSetUser)}>Join</button>
+      </div>}
       
       </div>
       <div className='col-span-12 md:col-span-9 ml-0 md:ml-5'>

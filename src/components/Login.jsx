@@ -49,11 +49,11 @@ const Login = ({useSetUser}) => {
         <p>{errorMessage}</p>
         </div>}
         {uid && <div>
-        <div className='grid grid-cols-3 shadow-md rounde py-2 my-3'>
+        <div className='grid grid-cols-3 shadow-md rounde py-2 my-3 bg-white rounded-md'>
         <div className='col-span-1 '>
           <img src={currentUserAvatar} className="aspect-square w-20 rounded-full mx-auto object-cover"/>
         </div>
-        <div className='col-span-2 text-left self-center'>
+        <div className='col-span-2 text-left self-center '>
           <p className='text-2xl'>Hello {currentFname}</p>
           <div className='space-x-3'>
           <button className='bg-gray-700 text-white px-3 py-1 rounded-md' onClick={() => setSettingsOpen(true)}>Settings</button>

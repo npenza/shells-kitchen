@@ -31,6 +31,7 @@ const useAuth = (setUser) => {
               await setUser.setCurrentUserAvatar(userData.avatar)
               await setUser.setAdmin(userData.admin)
               await setUser.setSuperAdmin(userData.SuperAdmin)
+              await setUser.setMealVotedFor(userData.activeMealVote)
               if(userData.familyUID){
                 await setUser.setFamilyUID(userData.familyUID)
               }

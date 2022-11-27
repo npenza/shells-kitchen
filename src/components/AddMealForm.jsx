@@ -16,8 +16,7 @@ export default function AddMealForm({setShowAddMeal}) {
     const [rating , setRating] = useState("")
     const familyUID = useAuthStore((state) => state.familyUID)
 
-
-
+    // Check if all fields are entered
     const checkActive = () => {
       if(title && img && description && rating){
         return true
@@ -25,12 +24,14 @@ export default function AddMealForm({setShowAddMeal}) {
         return false
       }
     }
-    
 
+    // Handle submit to add meal 
     const handleSubmit = () => {
       if(checkActive() == true){
+
         handleAddMeal(title , img , description , rating , familyUID)
         setShowAddMeal(false)
+
         // Reset Local Use States
         setTitle("")
         setImg("")
@@ -42,32 +43,16 @@ export default function AddMealForm({setShowAddMeal}) {
        
     }
 
-  // Upload File
-  const [percent, setPercent] = useState("");
-
+  // Upload File (eaiser to keep this here rather then a util)
   const handleFileUpload = (e) => {
     const storageRef = ref(storage, `/files/${e.target.files[0].name}`)
     const uploadTask = uploadBytesResumable(storageRef , e.target.files[0])
 
-    uploadTask.on(
-      "state_changed",
-      (snapshot) => {
-          const percent = Math.round(
-              (snapshot.bytesTransferred / snapshot.totalBytes) * 100
-          );
-
-          // update progress
-          setPercent(percent);
-      },
-      (err) => console.log(err),
-      () => {
-          // download url
+    // download url
           getDownloadURL(uploadTask.snapshot.ref).then((url) => {
             setImg(url);
           });
-      }
-  ); 
-  }
+        }
 
   return (
     <div className='grid grid-cols-12 mx-5 text-xl'>

@@ -2,7 +2,7 @@ import {useState, useEffect} from 'react'
 import {collection, query, doc , getDoc , orderBy, where, onSnapshot, updateDoc , FieldValue} from "firebase/firestore"
 import {db} from '../../firebase'
 
-export const handleVote = async (meal , id , setVotes , uid) => {
+export const handleVote = async (meal , id , setVotes , setMealVotedFor , uid) => {
   // Get Refs
   const mealDocRef = doc(db, 'meals', id)
   const userlDocRef = doc(db, 'users', uid)
@@ -32,6 +32,7 @@ export const handleVote = async (meal , id , setVotes , uid) => {
   
       // Set votes in state
       setVotes(userData.votes - 1)
+      setMealVotedFor(id)
     }
 
   } catch (err) {

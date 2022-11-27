@@ -15,6 +15,7 @@ export const useAuthStore = create((set) => ({
     loading: false,
     admin: false,
     SuperAdmin: false,
+    mealVotedFor: "",
     setEnteredEmail: (newEmail) => set((state) => ({ enteredEmail: newEmail })),
     setEnteredPassword: (newPassword) => set((state) => ({ enteredPassword: newPassword })),
     setCurrentUsername: (newUsername) => set((state) => ({ currentUsername: newUsername })),
@@ -28,5 +29,6 @@ export const useAuthStore = create((set) => ({
     setVotes: (newUserVotes) => set((state) => ({ votes: newUserVotes })),
     setLoading: (newLoadingState) => set((state) => ({ loading: newLoadingState })),
     setAdmin: (newAdminRole) => set((state) => ({ admin: newAdminRole })),
-    setSuperAdmin: (newSuperAdminRole) => set((state) => ({ SuperAdmin: newSuperAdminRole }))
+    setSuperAdmin: (newSuperAdminRole) => set((state) => ({ SuperAdmin: newSuperAdminRole })),
+    setMealVotedFor: (newMealVotedFor) => set((state) => ({ mealVotedFor: newMealVotedFor })),
 }))

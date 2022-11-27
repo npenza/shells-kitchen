@@ -7,7 +7,7 @@ const LeaderboardPanel = ({meal}) => {
 
 
     return (
-        <div key={meal.id} className='grid grid-cols-5 shadow-md my-2 rounded-lg'>
+        <div key={meal.id} className='grid grid-cols-5 shadow-md my-2 rounded-lg bg-white'>
         <div className='col-span-1'>
           <img className='w-[100%] h-[100%] aspect-square object-cover rounded-lg' src={meal.data.img} />
         </div>

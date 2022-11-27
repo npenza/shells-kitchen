@@ -8,6 +8,8 @@ import { doc, updateDoc , getDoc } from 'firebase/firestore'
 import { db } from '../../firebase'
 import AddMealForm from './AddMealForm';
 import { motion } from "framer-motion"
+import { useMealByID } from '../hooks/useMealByID';
+import VotedMealPanel from './VotedMealPanel';
 
 export default function MealGrid() {
 
@@ -20,6 +22,7 @@ export default function MealGrid() {
   const uid = useAuthStore((state) => state.uid)
   const familyUID = useAuthStore((state) => state.familyUID)
   const admin = useAuthStore((state) => state.admin)
+  const mealVotedFor = useAuthStore((state) => state.mealVotedFor)
 
   // Load Redux Methods
   const setOrder = useMealFilterStore((state) => state.setOrder);
@@ -28,8 +31,8 @@ export default function MealGrid() {
   const setAdmin = useAuthStore((state) => state.setAdmin);
 
 
-  // Create Family
 
+  // Create Family
   const handleCreateFamily = async () => {
     const newFamilyID = randomString(8).toUpperCase()
 
@@ -54,7 +57,6 @@ export default function MealGrid() {
 }
 
     const [showAddMeal , setShowAddMeal] = useState(false)
-
  
 
     return (
@@ -65,14 +67,14 @@ export default function MealGrid() {
         initial={{ translateY: -300 }}
         whileInView={{ translateY: 20 }}
         > 
-        <div className='bg-white border-b-gray-200 border-b-8 w-1/2 mx-auto static mt-[20vh] max-w-[900px] py-5 rounded text-left h-auto shadow-2xl'>
+        <div className='bg-white border-b-gray-200 border-b-8 w-1/2 mx-auto static mt-8  max-w-[900px] py-5 rounded text-left h-auto shadow-2xl'>
             <div onClick={() => setShowAddMeal(false)} className='hover:bg-red-300 bg-gray-300 font-bold text-center text-gray-500 rounded transition-all ease-in-out duration-75 float-right relative -top-16 hover:-top-14 p-4 pb-8 pr-7 w-[1em] -z-10 hover:cursor-pointer'>X</div>
               <h2 className='text-5xl text-[#555555] font-extrabold py-5 mx-5 text-center'>Add <span className='bg-[#5B8957] text-white px-2 rounded-md'>Meal</span></h2>
               <AddMealForm setShowAddMeal={setShowAddMeal}/>
             </div> 
         </motion.div>
           </div> }
-      <div className='filters w-100 grid grid-cols-12 my-3'>
+      <div className='filters w-100 grid grid-cols-12 m-3'>
       {admin && familyUID && <button onClick={() => setShowAddMeal(true)} className='bg-[#5B8957] hover:bg-green-600 text-white hover:font-bold px-3 col-span-2 rounded-sm mr-3 transition-all ease-in duration-75'>Add Meal</button> }
       <select className='p-2 rounded-sm' onChange={(e) => setOrder(e.target.value)}>
         <option value="asc">A-Z</option>
@@ -85,8 +87,10 @@ export default function MealGrid() {
       <button>Join Family</button>
       <button onClick={() => handleCreateFamily()}>Create Family</button>
       </div>}
+
+      {mealVotedFor && <VotedMealPanel mealVotedFor={mealVotedFor} /> }
       
-      <div className='meal-grid grid'>
+      <div className='meal-grid grid grid-cols-2'>
       {meals && meals.map((meal) => (
         <MealCard key={meal.id} id={meal.id} meal={meal.data} />
       ))}

@@ -1,13 +1,15 @@
 import { getAuth , updateProfile } from 'firebase/auth';
-import { doc, getDoc, updateDoc } from 'firebase/firestore';
 import React, { useState } from 'react'
-import { db } from '../../../firebase';
 import { useAllFamilyMembers } from '../../hooks/useAllFamilyMembers';
 import { useAllMeals } from '../../hooks/useAllMeals';
 import { useAuthStore } from '../../store/useAuthStore'
+import { handleSaveChanges } from '../../utils/auth/handleSaveChanges';
+import { handleUnhideMeal } from '../../utils/handleUnhideMeal';
 import MemberSetting from '../MemberSetting';
 
+
 export default function SettingModal({setSettingsOpen , useSetUser}) {
+
     // Load Redux Props
     const auth = getAuth();
     const currentUsername = useAuthStore((state) => state.currentUsername)
@@ -23,111 +25,48 @@ export default function SettingModal({setSettingsOpen , useSetUser}) {
     const admin = useAuthStore((state) => state.admin)
     const SuperAdmin = useAuthStore((state) => state.SuperAdmin)
 
-    //State   
+    //Load State From Custom Hooks   
     const familyMembers = useAllFamilyMembers()
     const meals  = useAllMeals(false)
 
-
-    // Update Account State
+    // Update Account State (Form)
     const [newFname , setNewFname] = useState(currentFname)
     const [newLname , setNewLname] = useState(currentLname)
     const [newEmail , setNewEmail] = useState(enteredEmail)
 
-    const handleSaveChanges = async () => {
-
-        updateProfile(auth.currentUser, {
-           //update auth 
-          }).then(async () => {
-            // Profile updated!
-             // Make changes on Firebase
-            const userDocRef = doc(db, 'users', uid)
-            try{
-            const docSnap = await getDoc(userDocRef);
-            const userData = docSnap.data()
-        
-            if (userData){
-                await updateDoc(doc(db,  "users" , uid), {
-                Fname : newFname,
-                Lname : newLname,
-                email: newEmail
-                })
-            }
-            useSetUser.setCurrentFname(newFname)
-            useSetUser.setCurrentLname(newLname)
-            useSetUser.setEnteredEmail(newEmail)
-            } catch (e) {
-            console.log(e)
-            }
-            // ...
-          }).catch((error) => {
-            // An error occurred
-            console.log(error)
-            // ...
-          });
-
-       
-    }
-
-    const handleUnhideMeal = async (id) => {
-
-        const userDocRef = doc(db, 'meals', id)
-        try{
-        const docSnap = await getDoc(userDocRef);
-        const mealData = docSnap.data()
-    
-        if (mealData){
-            await updateDoc(doc(db,  "meals" , id), {
-              hidden : false
-              })
-          } 
-
-        } catch (e) {
-        console.log(e)
-        }
-        // ...
-      };
-
-
   return (
     <div className='bg-[#000000c0] w-[100%] h-[100%] fixed top-0 left-0 z-10'>
-          <div className='bg-white w-1/2 mx-auto static mt-[20vh] rounded'>
-            <h1>Settings</h1>
-            <h2>Account Info</h2>
-            <label for="fname">First Name</label>
-            <input type="text" name="fname" className='bg-gray-200 mx-3 p-1 px-2' value={newFname} onChange={(e) => setNewFname(e.target.value)} />
-
-            <label for="fname">Last Name</label>
-            <input type="text" name="fname" className='bg-gray-200 mx-3 p-1 px-2' value={newLname} onChange={(e) => setNewLname(e.target.value)}/>
-
-            <label for="fname">Email</label>
-            <input type="email" name="fname" className='bg-gray-200 mx-3 p-1 px-2 disabled:text-gray-400' disabled value={newEmail} onChange={(e) => setNewEmail(e.target.value)}/>
-
-            <button className='bg-gray-200 mx-3 p-1 px-2 rounded-sm'>Reset Password</button>
-            <button onClick={() => handleSaveChanges()} className='bg-gray-400 mx-3 p-1 px-2 rounded-sm'>Save Changes</button>
+          <div className='bg-white w-1/2 mx-auto static mt-5 rounded'>
+            <h2 className='text-5xl text-[#555555] font-extrabold py-5 mx-5 text-center'>Settings</h2>
+            <h2 className='text-2xl text-[#555555] font-extrabold py-5 mx-5 text-left'>Account Info</h2>
+            <div className='grid grid-cols-12 space-y-3 mb-5'>
+            <label for="fname" className='col-span-2 self-center align-middle justify-center'>First Name</label>
+            <input type="text" name="fname" className='bg-gray-200 mx-3 p-2 col-span-10' value={newFname} onChange={(e) => setNewFname(e.target.value)} />
+            <label for="fname" className='col-span-2 self-center align-middle justify-center'>Last Name</label>
+            <input type="text" name="fname" className='bg-gray-200 mx-3 p-2 col-span-10' value={newLname} onChange={(e) => setNewLname(e.target.value)}/>
+            <label for="fname" className='col-span-2 self-center align-middle justify-center'>Email</label>
+            <input type="email" name="fname" className='bg-gray-200 mx-3 p-2 disabled:text-gray-400 col-span-10' disabled value={newEmail} onChange={(e) => setNewEmail(e.target.value)}/>
+            <label className='col-span-2 self-center align-middle justify-center'>Password</label>
+            <button className='bg-gray-200 mx-3 p-1 px-2 rounded-sm col-span-10'>Reset Password</button>
+            </div>
+            <button onClick={() => handleSaveChanges( auth, uid , useSetUser , newFname , newLname , newEmail)} className='bg-gray-400 mx-3 p-1 px-2 rounded-sm'>Save Changes</button>
 
             {admin && 
               <div>
-              
-              <h2>Hidden Meals</h2>
+                <h2 className='text-2xl text-[#555555] font-extrabold py-5 mx-5 text-left'>Hidden Meals</h2>
                 {meals && meals.map((meal) => (
                     <div><p>{meal.data.title}</p> <button onClick={() => handleUnhideMeal(meal.id)}>unhide</button></div>
                 ))}
 
-                <h2>Family Info</h2>
 
-                <h3>Current Members</h3>
+                <h2 className='text-2xl text-[#555555] font-extrabold py-5 mx-5 text-left'>Family</h2>
                 <div className='grid grid-cols-4 space-x-5 mx-5'>
                 {familyMembers && familyMembers.map((member) => (
                     <MemberSetting member={member} uid={uid}/>
                 ))}
                 </div>
-
-               
-                
               </div>
             }
-
-
             <br />
             <button onClick={() => setSettingsOpen(false)} className='bg-red-300 rounded-md my-5 p-3'>Close Settings</button>
           </div>

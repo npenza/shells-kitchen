@@ -70,7 +70,7 @@ export default function MemberSetting({member , uid}) {
         
 
   return (
-    <div key={member.id} onMouseLeave={() => setProfileOpen(false)} onMouseEnter={() => setProfileOpen(true)} className='grid grid-cols-4 h-20 bg-white hover:bg-orange-400  hover:cursor-pointer transition-all ease-in-out duration-75 shadow-md rounded-md my-5 px-3'>
+    <div key={member.id} onMouseLeave={() => setProfileOpen(false)} onMouseEnter={() => setProfileOpen(true)} className='grid grid-cols-4 h-20 bg-white hover:bg-[#354c2e]  hover:cursor-pointer transition-all ease-in-out duration-75 shadow-md rounded-md my-5 px-3'>
     <div className='col-span-1'>
     <img src={member.data.avatar} className="w-14 rounded-full self-center aspect-square object-cover my-2"/>
     </div>

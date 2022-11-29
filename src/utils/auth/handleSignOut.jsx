@@ -11,7 +11,9 @@ export const handleSignOut = (useSetUser) => {
       useSetUser.setCurrentLname("")
       useSetUser.setUID("")
       useSetUser.setFamilyUID("")
-      useSetUser.setFamilyMembers([])
+      // useSetUser.setFamilyMembers([])
+    }).then(() => {
+      window.location.reload()
     }).catch((error) => {
       // An error happened.
       console.log("error:", error)

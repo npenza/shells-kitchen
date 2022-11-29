@@ -10,8 +10,10 @@ import AddMealForm from './AddMealForm';
 import { motion } from "framer-motion"
 import { useMealByID } from '../hooks/useMealByID';
 import VotedMealPanel from './VotedMealPanel';
+import { useMealsWithVotes } from '../hooks/useMealsWithVotes';
+import toast from 'react-hot-toast';
 
-export default function MealGrid() {
+export default function MealGrid({votingPeriod}) {
 
   const [searchTerm , setSearchTerm] = useState("")
   const meals  = useAllMeals(true)
@@ -30,7 +32,8 @@ export default function MealGrid() {
   const setFamilyUID = useAuthStore((state) => state.setFamilyUID);
   const setAdmin = useAuthStore((state) => state.setAdmin);
 
-
+  // Winning Meal
+  const winningMeal = useMealsWithVotes(familyUID)
 
   // Create Family
   const handleCreateFamily = async () => {
@@ -49,7 +52,7 @@ export default function MealGrid() {
       }
       setFamilyUID(newFamilyID)
       setAdmin(true)
-      alert("connected" , newFamilyID)
+      toast.success("New family created.")
     } catch (e) {
       console.log(e)
     }
@@ -88,11 +91,11 @@ export default function MealGrid() {
       <button onClick={() => handleCreateFamily()}>Create Family</button>
       </div>}
 
-      {mealVotedFor && <VotedMealPanel mealVotedFor={mealVotedFor} /> }
+      {mealVotedFor && familyUID && <VotedMealPanel mealVotedFor={mealVotedFor} winningMeal={winningMeal} votingPeriod={votingPeriod} /> }
       
-      <div className='meal-grid grid grid-cols-2'>
+      <div className='meal-grid grid md:grid-cols-2'>
       {meals && meals.map((meal) => (
-        <MealCard key={meal.id} id={meal.id} meal={meal.data} />
+        <MealCard key={meal.id} id={meal.id} meal={meal.data} votingPeriod={votingPeriod} />
       ))}
       {admin && meals && familyUID && meals.length == 0 && <div>
         <h2>This app is a lot more fun when there are meals to vote for.</h2>

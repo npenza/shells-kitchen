@@ -1,6 +1,7 @@
 import {useState, useEffect} from 'react'
 import {collection, query, doc , getDoc , orderBy, where, onSnapshot, updateDoc , FieldValue} from "firebase/firestore"
 import {db} from '../../firebase'
+import toast from 'react-hot-toast'
 
 export const handleVote = async (meal , id , setVotes , setMealVotedFor , uid) => {
   // Get Refs
@@ -15,10 +16,11 @@ export const handleVote = async (meal , id , setVotes , setMealVotedFor , uid) =
 
     //Can the user vote?
     if (userData.votes == 0){
-      alert("You have ran out of votes haha")
+      toast.error("You have no remaining votes for today.")
     } else if (!userData.familyUID){
       location.reload()
     } else {
+
       // Update meal votes
       await updateDoc(mealDocRef, {
         votes : meal.votes + 1
@@ -33,6 +35,7 @@ export const handleVote = async (meal , id , setVotes , setMealVotedFor , uid) =
       // Set votes in state
       setVotes(userData.votes - 1)
       setMealVotedFor(id)
+      toast.success("Vote added.")
     }
 
   } catch (err) {

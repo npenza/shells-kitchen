@@ -7,6 +7,7 @@ const FamilyMembersAside = ({familyUID}) => {
 
     return (
         <div>
+        <h2 class="bg-[#354c2e] text-white font-medium w-[100%] flex justify-center py-2 rounded-lg">Family Members</h2>
         {familyMembers && familyMembers.map((member) => (
         <div className='grid grid-cols-4 h-20 bg-white shadow-md rounded-md my-5 px-3'>
         <div className='col-span-1'>

@@ -5,7 +5,6 @@ const LeaderboardPanel = ({meal}) => {
 
     const voters = useVotersForMeal(meal.id)
 
-
     return (
         <div key={meal.id} className='grid grid-cols-5 shadow-md my-2 rounded-lg bg-white'>
         <div className='col-span-1'>

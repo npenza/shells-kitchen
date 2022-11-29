@@ -13,7 +13,7 @@ import Countdown from 'react-countdown';
 import { useAllFamilyMembers } from '../hooks/useAllFamilyMembers';
 import SettingModal from './Modals/SettingModal';
 
-const Login = ({useSetUser}) => {
+const Login = ({useSetUser , resultsTime}) => {
 
   // Load Redux Props
   const currentUsername = useAuthStore((state) => state.currentUsername)
@@ -34,6 +34,7 @@ const Login = ({useSetUser}) => {
 
   // Settings Modal
   const [settingsOpen , setSettingsOpen] = useState(false)
+
 
   const familyMembers = useAllFamilyMembers()
     return (
@@ -64,8 +65,8 @@ const Login = ({useSetUser}) => {
         </div>
         </div>
           <AsideStat stat={votes} asideText={"Votes Remaining"} />
-          <AsideStat stat={"HH:MM"} asideText={"Time Remaining"} />
-          {/* <Countdown  /> */}
+          <AsideStat stat={<Countdown date={resultsTime}/> } asideText={"Time Remaining"} />
+          
         </div>
         }
     </>
